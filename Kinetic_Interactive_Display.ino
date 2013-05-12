@@ -1,8 +1,6 @@
-
-
 #include "def.h"
 #include "pins.h"
-#include "TestValues.h"
+#include "test_values.h"
 #include <math.h>
 
 //initial state
@@ -19,31 +17,45 @@ void setup(){
   clearRegisters();
   writeRegisters();
   
-  Serial.begin(19200);
+  Serial.begin(115200);
   Serial.println("Ready");
-  
+  generate_delay_table();
   #if defined SINEWAVE
     generate_sine();
-    print_sine();
+    
+    //print_sine();
   #endif
 }               
 
 void loop(){
   //if (start_up == 0) homing();  //will home only once upon startup
+  
+  
   #ifndef TESTING
-    get_serial();
-  #else
-    next_frame();
-  #endif
-  
-  calculate_delays();
-  
-  start_millis = millis();
-  
-  //decides whether or not enough time has passed to step a motor again in a certain direction
-  if(millis() < SAMPLE_DELAY + start_millis){
-    time_steps();  
+  if( Serial.available() > 0){
+    
+      #if defined SERIAL_DEBUG
+      Serial.print(micros());
+      Serial.println(": Getting Serial Data");
+      #endif
+      
+      get_serial();
+      set_delays();
+
+    //start_millis = millis();
   }
+    #else
+      next_frame();
+      set_delays();
+    #endif
+    
+
+
+
+  //decides whether or not enough time has passed to step a motor again in a certain direction
+  
+    time_steps();  
+  
   
 }
 

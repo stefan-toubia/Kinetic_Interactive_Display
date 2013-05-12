@@ -24,15 +24,15 @@
         increment= increment +8;
         next_position[x][y] = sine_values[temp];
       } 
-      Serial.print(temp);
-      Serial.print(" - ");
-      Serial.print(sine_values[temp]);
-      Serial.print("    ");
+//      Serial.print(temp);
+//      Serial.print(" - ");
+//      Serial.print(sine_values[temp]);
+//      Serial.print("    ");
       
       increment = increment + SINE_INCREMENT;
       if(sine_position > SINE_SAMPLES) sine_position = sine_position - SINE_SAMPLES;
     }
-    Serial.println(" ");
+//    Serial.println(" ");
     sine_position = sine_position + SINE_SPEED;
     if(sine_position > SINE_SAMPLES) sine_position = sine_position - SINE_SAMPLES;
   }

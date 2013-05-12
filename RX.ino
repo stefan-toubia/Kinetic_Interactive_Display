@@ -1,8 +1,11 @@
 //Serial reading variables
 //uint8_t incoming_serial[3][3][4]; // row x column x RGBD
 uint16_t incoming_serial[NUM_COLUMNS][NUM_ROWS];  //just depth array
+char header[HEADER_SIZE];
+char incoming_depth[9];
 int x_in = 0;
 int y_in = 0;
+int i;
 //int RGBD_in = 0;  // R, G, B, D
 //int index = 0;
 
@@ -16,11 +19,27 @@ int y_in = 0;
 #ifndef TESTING
   void get_serial(){
     
-    if( Serial.available() > 0){
+    
       //incoming_serial[x_in][y_in][RGBD_in] = Serial.read();
-      incoming_serial[x_in][y_in] = Serial.read();
-      roll_over_index();
-    }
+      Serial.readBytes(header, HEADER_SIZE);
+      #if defined SERIAL_DEBUG
+      Serial.print(micros());
+      Serial.print(" - ");
+      Serial.print(header);
+      Serial.println(": received header");
+      #endif
+     // if(header==DEPTH_HEADER){
+      Serial.readBytes(incoming_depth, 9);
+      Serial.print(micros());
+      Serial.print(" - ");
+      Serial.print(incoming_depth);
+      Serial.println(": received header");
+        copy_data();
+     // }
+         
+        //incoming_serial[x_in][y_in] = Serial.read();
+        //roll_over_index();
+    
   }
   
   void roll_over_index(){
@@ -43,11 +62,13 @@ int y_in = 0;
   }
 
 void copy_data(){
+  i=0;
     for(int x = 0; x < NUM_COLUMNS; x++){
-         for(int y = 0; y < NUM_ROWS; y++){
-           next_position[x][y] = incoming_serial[x][y];
-         }
-       }
+     for(int y = 0; y < NUM_ROWS; y++){
+       next_position[x][y] = incoming_depth[i];
+       i++;
+     }
+   }
 }
 #else
 

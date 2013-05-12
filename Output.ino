@@ -1,13 +1,11 @@
 boolean registers[numOfRegisterPins];
 
-
 //set all register pins to LOW
 void clearRegisters(){
   for(int i = numOfRegisterPins - 1; i >=  0; i--){
      registers[i] = LOW;
   }
 } 
-
 
 //Set and display registers
 //Only call AFTER all values are set how you would like (slow otherwise)

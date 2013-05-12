@@ -2,12 +2,13 @@
 //TESTING
 
 //comment out to enter testing mode (uses test array from TestValues.h)
-#define TESTING    //no serial
+//#define TESTING    //no serial
+#define SERIAL_DEBUG
 
 #if defined TESTING
   #define SINEWAVE
   #define SINE_INCREMENT 8
-  #define SINE_SPEED 32
+  #define SINE_SPEED 8
   #define SINE_SAMPLES 256
 #endif
 
@@ -23,7 +24,7 @@
 //MOTION PLANNING DEFS
 #define max_steps  125      // total number of steps this motor can take 
 #define MAX_SPEED  250  //steps per second
-#define MIN_DELAY 1000/MAX_SPEED
+#define MIN_DELAY MICROS_PER_SECOND/MAX_SPEED
 
 
 
@@ -38,6 +39,9 @@
 //SERIAL DEFS
 #define SAMPLE_RATE  10  //samples per second
 #define SAMPLE_DELAY 1000/SAMPLE_RATE //ms
+#define HEADER_SIZE 4
+#define DEPTH_HEADER "\xAA\xDA"
 
 
 ///////////////////////////////////////////////////////////////
+#define MICROS_PER_SECOND 100000
