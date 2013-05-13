@@ -1,4 +1,6 @@
 boolean registers[numOfRegisterPins];
+boolean shift_pattern[45];  //output bit pattern for shift registers
+int i;
 
 //set all register pins to LOW
 void clearRegisters(){
@@ -37,7 +39,7 @@ void setRegisterPin(int index, int value){
 
         
 void create_shift_pattern(){
-int i=0; 
+  int i=0; 
   for(int x = 0; x < 3; x++){
       for(int y = 0; y < 3; y++){
         switch (current_step[x][y]) {
@@ -69,6 +71,15 @@ int i=0;
               setRegisterPin(5*(i)+3, LOW);
               setRegisterPin(5*(i)+4, HIGH);
           break;
+          #if defined SLEEP_MODE_EN
+          case 4: //1111 - SLEEP mode
+              setRegisterPin(5*(i), HIGH);
+              setRegisterPin(5*(i)+1, HIGH);
+              setRegisterPin(5*(i)+2, HIGH);
+              setRegisterPin(5*(i)+3, HIGH);
+              setRegisterPin(5*(i)+4, HIGH);
+          break;
+          #endif
         }
         i++;
       }

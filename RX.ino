@@ -1,13 +1,14 @@
+//Some inspiration was taken from Erik Zalm's Marlin RepRap firmware
+
+
 //Serial reading variables
 //uint8_t incoming_serial[3][3][4]; // row x column x RGBD
+
 uint16_t incoming_serial[NUM_COLUMNS][NUM_ROWS];  //just depth array
 char header[HEADER_SIZE];
 char incoming_depth[9];
 int x_in = 0;
 int y_in = 0;
-int i;
-//int RGBD_in = 0;  // R, G, B, D
-//int index = 0;
 
 #if defined TESTING
   int frame = 1;  
@@ -17,85 +18,99 @@ int i;
 #endif
 
 #ifndef TESTING
-  void get_serial(){
-    
-    
-      //incoming_serial[x_in][y_in][RGBD_in] = Serial.read();
-      Serial.readBytes(header, HEADER_SIZE);
-      #if defined SERIAL_DEBUG
-      Serial.print(micros());
-      Serial.print(" - ");
-      Serial.print(header);
-      Serial.println(": received header");
-      #endif
-     // if(header==DEPTH_HEADER){
-      Serial.readBytes(incoming_depth, 9);
-      Serial.print(micros());
-      Serial.print(" - ");
-      Serial.print(incoming_depth);
-      Serial.println(": received header");
-        copy_data();
-     // }
-         
-        //incoming_serial[x_in][y_in] = Serial.read();
-        //roll_over_index();
-    
-  }
-  
-  void roll_over_index(){
-    x_in++;
-    if(x_in>NUM_COLUMNS){
-      x_in = 0;
-      y_in++;
-    }
-    if(y_in>NUM_ROWS){
-      y_in = 0;
-      //RGBD_in++;
-      copy_data();
-    }
-  //  if(RGBD_in>RGBD_MAX){
-  //    RGBD_in = 0;
-  //
-  //  } 
-    
-    
-  }
 
-void copy_data(){
-  i=0;
-    for(int x = 0; x < NUM_COLUMNS; x++){
-     for(int y = 0; y < NUM_ROWS; y++){
-       next_position[x][y] = incoming_depth[i];
+void get_serial(){
+ // if((last_received_time + SERIAL_TIMEOUT) < millis()){
+ //   data_packet.index = 0;
+  //  buffer_full = false;
+  //}
+  //last_received_time = millis();
+  #ifdef SERIAL_DEBUG 
+  Serial.println("Get Serial Function");
+  #endif
+  data_packet.buffer[data_packet.index] = Serial.read();
+  #ifdef SERIAL_DEBUG 
+  Serial.print("Received: ");
+  Serial.println(data_packet.buffer[data_packet.index]);
+  Serial.print("Index: ");
+  Serial.println(data_packet.index);
+  #endif
+  //Serial.write(data_packet.buffer[data_packet.index]);
+  data_packet.index++;
+  #ifdef SERIAL_DEBUG 
+  Serial.print("Index after ++: ");
+  Serial.println(data_packet.index);
+  #endif
+  if(data_packet.index == RX_BUFFER_SIZE){
+    #ifdef SERIAL_DEBUG 
+    Serial.println("Buffer Full");
+    #endif
+     buffer_full = true;
+  }
+}
+
+void handle_data(){
+  #ifdef SERIAL_DEBUG 
+  Serial.println("Handle data function");
+  #endif
+  /*switch(data_packet.buffer[HEADER_LOC]){
+    case DEPTH:*/
+      save_next_position();
+    /*  break;
+    default:
+      buffer_full = false;
+      data_packet.index = 0;
+      //Serial.println("ERROR");
+  }*/
+  //buffer_full = false;
+  //data_packet.index = 0;
+}
+
+void save_next_position(){
+  #ifdef SERIAL_DEBUG 
+  Serial.println("save next position function");
+  Serial.println("data packet buffer:");
+  #endif
+  int i=0;
+    for(int y = 0; y < NUM_ROWS; y++){
+     for(int x = 0; x < NUM_COLUMNS; x++){
+       #ifdef SERIAL_DEBUG 
+       Serial.print(data_packet.buffer[i]);
+       Serial.print(" ");
+       #endif
+       //Serial.write(data_packet.buffer[i]);
+       next_position[x][y] = data_packet.buffer[i];
        i++;
      }
+    #ifdef SERIAL_DEBUG  
+    Serial.println(" ");
+    #endif
    }
+   
 }
+
 #else
 
   void next_frame(){
     last_frame = frame;
-    current_time_millis= millis();
-    if(current_time_millis > last_frame_time + SAMPLE_DELAY) {
-      last_frame_time = current_time_millis;
-      frame++;  // for test arrays only
-      if(frame==10){
-        frame = 0;
-      }
+    frame++;  // for test arrays only
+    if(frame==10){
+      frame = 0;
+    }
       //print_current_frame();
       //print_next_position();
-    }
-    if(last_frame!=frame){
-      #if defined SINEWAVE
-        generate_sine_frame();
-      #else
-         for(int x = 0; x < NUM_COLUMNS; x++){
-           for(int y = 0; y < NUM_ROWS; y++){
-             next_position[x][y] = test_input[frame][x][y];
-           }
+  
+    #if defined SINEWAVE
+      generate_sine_frame();
+    #else
+       for(int x = 0; x < NUM_COLUMNS; x++){
+         for(int y = 0; y < NUM_ROWS; y++){
+           next_position[x][y] = test_input[frame][x][y];
          }
-       #endif
-      // print_next_position();
-    }
+       }
+     #endif
+    // print_next_position();
+    
   }
 
 #endif

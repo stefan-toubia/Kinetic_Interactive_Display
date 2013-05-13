@@ -5,6 +5,7 @@
   uint8_t sine_matrix[NUM_COLUMNS][NUM_ROWS];
   uint8_t increment;
   uint16_t temp;
+
   
   void generate_sine(){
       for(int i = 0; i<SINE_SAMPLES; i++){
@@ -29,11 +30,11 @@
 //      Serial.print(sine_values[temp]);
 //      Serial.print("    ");
       
-      increment = increment + SINE_INCREMENT;
+      increment = increment + sine_increment;
       if(sine_position > SINE_SAMPLES) sine_position = sine_position - SINE_SAMPLES;
     }
 //    Serial.println(" ");
-    sine_position = sine_position + SINE_SPEED;
+    sine_position = sine_position + sine_speed;
     if(sine_position > SINE_SAMPLES) sine_position = sine_position - SINE_SAMPLES;
   }
   

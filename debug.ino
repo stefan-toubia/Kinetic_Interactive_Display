@@ -36,9 +36,34 @@ void print_current_step(){
 #endif
 
 void print_next_position(){
+  Serial.println("Next Positions");
   for(int y = 0; y < 3; y++){
     for(int x = 0; x < 3; x++){
       Serial.print(next_position[x][y]);
+      Serial.print("  ");
+    }
+    Serial.print("\n");
+  }
+  Serial.print("\n");
+}
+
+void print_current_position(){
+  Serial.println("Current Positions");
+  for(int y = 0; y < 3; y++){
+    for(int x = 0; x < 3; x++){
+      Serial.print(pos[x][y]);
+      Serial.print("  ");
+    }
+    Serial.print("\n");
+  }
+  Serial.print("\n");
+}
+
+void print_delays(){
+  Serial.println("Delays");
+  for(int y = 0; y < 3; y++){
+    for(int x = 0; x < 3; x++){
+      Serial.print(step_delay[x][y]);
       Serial.print("  ");
     }
     Serial.print("\n");
