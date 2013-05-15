@@ -4,8 +4,9 @@
   uint8_t sine_values[SINE_SAMPLES];
   uint8_t sine_matrix[NUM_COLUMNS][NUM_ROWS];
   uint8_t increment;
+  //, skew;
   uint16_t temp;
-
+ // skew = 8;
   
   void generate_sine(){
       for(int i = 0; i<SINE_SAMPLES; i++){
@@ -21,8 +22,9 @@
     for(int y = 0; y < NUM_ROWS; y++){
       for(int x = 0; x < NUM_COLUMNS;x++){
         temp = sine_position + increment;
-        if(temp >= SINE_SAMPLES) temp = temp - SINE_SAMPLES;
-        increment= increment +8;
+        //if(temp >= SINE_SAMPLES) temp = temp - SINE_SAMPLES;
+        temp = temp%SINE_SAMPLES;
+        increment= increment + 8;
         next_position[x][y] = sine_values[temp];
       } 
 //      Serial.print(temp);
@@ -31,7 +33,7 @@
 //      Serial.print("    ");
       
       increment = increment + sine_increment;
-      if(sine_position > SINE_SAMPLES) sine_position = sine_position - SINE_SAMPLES;
+      sine_position = sine_position%SINE_SAMPLES;
     }
 //    Serial.println(" ");
     sine_position = sine_position + sine_speed;

@@ -17,7 +17,7 @@ boolean buffer_full;
 boolean homing_state;
 
 void setup(){
-  pinMode(SER1_PIN, OUTPUT);
+  pinMode(SER0_PIN, OUTPUT);
   pinMode(RCLK_Pin, OUTPUT);
   pinMode(SRCLK_Pin, OUTPUT);
   data_packet.index = 0;
@@ -67,6 +67,7 @@ void loop(){
     homing_state = false;
   }
   #endif
+  
   #ifndef TESTING
   if( Serial.available() > 0 && !homing_state){
     #ifdef SERIAL_DEBUG 
@@ -106,6 +107,7 @@ void loop(){
    
   
   #else
+  /*
   if ( Serial.available()&& state != '1' && state != '2') {
     //Serial.println(micros());
     state = Serial.read();
@@ -133,10 +135,12 @@ void loop(){
     state = 0;
     } 
   }
+  
+  */
   current_millis = millis();
   if(current_millis > start_millis + SAMPLE_DELAY){
     start_millis = millis();
-    if(state != '3') next_frame();  //sets next_position[] based on defined test input 
+    next_frame();  //sets next_position[] based on defined test input 
     set_delays();
     last_start_millis = start_millis;
     //  `print_delays();

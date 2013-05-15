@@ -20,7 +20,7 @@ void writeRegisters(){
 
     int val_1 = registers[i];
     //int val_2 = registers[i+numOfRegisterPins];
-    digitalWrite(SER1_PIN, val_1);
+    digitalWrite(SER0_PIN, val_1);
     delayMicroseconds (4); 
     digitalWrite(SRCLK_Pin, HIGH);
     delayMicroseconds (4); 

@@ -2,8 +2,8 @@
 //TESTING
 
 //comment out to enter testing mode (uses test array from TestValues.h)
-//#define TESTING    //no serial
-//#define SERIAL_DEBUG
+#define TESTING    //no serial
+#define SERIAL_DEBUG
 
 #if defined TESTING
   #define SINEWAVE
