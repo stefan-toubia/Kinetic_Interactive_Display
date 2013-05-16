@@ -1,90 +1,50 @@
-boolean registers[numOfRegisterPins];
-boolean shift_pattern[45];  //output bit pattern for shift registers
-int i;
+#include "Output.h"
+#include <Arduino.h>
 
-//set all register pins to LOW
-void clearRegisters(){
-  for(int i = numOfRegisterPins - 1; i >=  0; i--){
-     registers[i] = LOW;
-  }
-} 
-
-//Set and display registers
-//Only call AFTER all values are set how you would like (slow otherwise)
-void writeRegisters(){
-
-  digitalWrite(RCLK_Pin, LOW);
-
-  for(int i = numOfRegisterPins - 1; i >=  0; i--){
-    digitalWrite(SRCLK_Pin, LOW);
-
-    int val_1 = registers[i];
-    //int val_2 = registers[i+numOfRegisterPins];
-    digitalWrite(SER0_PIN, val_1);
-    delayMicroseconds (4); 
-    digitalWrite(SRCLK_Pin, HIGH);
-    delayMicroseconds (4); 
-    
-  }
-  digitalWrite(RCLK_Pin, HIGH);
- 
-}
-
-//set an individual pin HIGH or LOW
-void setRegisterPin(int index, int value){
-  registers[index] = value;
-}
-
-
-
-        
 void create_shift_pattern(){
   int i=0; 
   for(int x = 0; x < 3; x++){
       for(int y = 0; y < 3; y++){
         switch (current_step[x][y]) {
-          case 0:    // 1010
-              setRegisterPin(5*(i), LOW);
-              setRegisterPin(5*(i)+1, HIGH);
-              setRegisterPin(5*(i)+2, LOW);
-              setRegisterPin(5*(i)+3, HIGH);
-              setRegisterPin(5*(i)+4, HIGH);
+          case 0:    
+            //setMotorPinsXY(x, y, 0x0B);
+            shift_out.setMotorPins(i, 0, B01011);//0x0B
+            //shift_out.setMotorPins(i, 1, B01011);//0x0B
           break;
-          case 1:    // 0110
-              setRegisterPin(5*(i), HIGH);
-              setRegisterPin(5*(i)+1, LOW);
-              setRegisterPin(5*(i)+2, LOW);
-              setRegisterPin(5*(i)+3, HIGH);
-              setRegisterPin(5*(i)+4, HIGH);
+          case 1:
+            //setMotorPinsXY(x, y, 0x13);    
+            shift_out.setMotorPins(i, 0, B10011);//0x0
+            //shift_out.setMotorPins(i, 1, B10011);//0x0D
           break;
-          case 2:    //0101
-              setRegisterPin(5*(i), HIGH);
-              setRegisterPin(5*(i)+1, LOW);
-              setRegisterPin(5*(i)+2, HIGH);
-              setRegisterPin(5*(i)+3, LOW);
-              setRegisterPin(5*(i)+4, HIGH);
+          case 2:    
+            //setMotorPinsXY(x, y, 0x15);
+            shift_out.setMotorPins(i, 0, B10101);//0x15
+            //shift_out.setMotorPins(i, 1, B10101);//0x15
+
           break;
-          case 3:    //1001
-              setRegisterPin(5*(i), LOW);
-              setRegisterPin(5*(i)+1, HIGH);
-              setRegisterPin(5*(i)+2, HIGH);
-              setRegisterPin(5*(i)+3, LOW);
-              setRegisterPin(5*(i)+4, HIGH);
+          case 3:   
+            //setMotorPinsXY(x, y, 0x0D);
+            shift_out.setMotorPins(i, 0, B01101);
+            //shift_out.setMotorPins(i, 1, B01101);
           break;
           #if defined SLEEP_MODE_EN
           case 4: //1111 - SLEEP mode
-              setRegisterPin(5*(i), HIGH);
-              setRegisterPin(5*(i)+1, HIGH);
-              setRegisterPin(5*(i)+2, HIGH);
-              setRegisterPin(5*(i)+3, HIGH);
-              setRegisterPin(5*(i)+4, HIGH);
+            //setMotorPinsXY(x, y, 0x1F);
+            shift_out.setMotorPins(i, 0, B11111);
+            //shift_out.setMotorPins(i, 1, B11111);
           break;
           #endif
         }
         i++;
       }
   }
-  writeRegisters();
+  shift_out.writeRegisters();
       
 }
+   
+void setMotorPinsXY(uint8_t x, uint8_t y, uint8_t pins){
+   shift_out.setMotorPins(indexLUT[x][y], boardLUT[x][y], pins);
+}
+
+
 

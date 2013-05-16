@@ -8,23 +8,23 @@
 #define SER7_PIN  42
 #define SER8_PIN  50
 
-#define RCLK_Pin  41  //pin 12 on the 75HC595
-#define SRCLK_Pin  40 //pin 11 on the 75HC595
+#define RCLK_PIN  41  //pin 12 on the 75HC595
+#define SRCLK_PIN  40 //pin 11 on the 75HC595
 
 
 /////////////////////////////////////
 //LED
-#define LED0 37
-#define LED0 36
-#define LED0 35
-#define LED0 34
-#define LED0 33
-#define LED0 32
-#define LED0 31
-#define LED0 30
-#define LED0 51
+#define RGB_PIN0 37
+#define RGB_PIN1 36
+#define RGB_PIN2 35
+#define RGB_PIN3 34
+#define RGB_PIN4 33
+#define RGB_PIN5 32
+#define RGB_PIN6 31
+#define RGB_PIN7 30
+#define RGB_PIN8 51
 
-#define LEDCLK 39
+#define RGB_CLK 39
 
 
 

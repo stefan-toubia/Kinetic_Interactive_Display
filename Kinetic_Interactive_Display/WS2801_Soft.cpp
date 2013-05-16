@@ -25,10 +25,7 @@ WS2801_Soft::WS2801_Soft(uint8_t dpin0, uint8_t dpin1, uint8_t dpin2, uint8_t dp
 }
 
 //constructor for 9 boards
-WS2801_Soft::WS2801_Soft
-
-
-(uint8_t dpin0, uint8_t dpin1, uint8_t dpin2, uint8_t dpin3, uint8_t dpin4, uint8_t dpin5, uint8_t dpin6, uint8_t dpin7, uint8_t dpin8, uint8_t cpin) {
+WS2801_Soft::WS2801_Soft(uint8_t dpin0, uint8_t dpin1, uint8_t dpin2, uint8_t dpin3, uint8_t dpin4, uint8_t dpin5, uint8_t dpin6, uint8_t dpin7, uint8_t dpin8, uint8_t cpin) {
   alloc(9);
   updatePins(dpin0, dpin1, dpin2, dpin3, dpin4, dpin5, dpin6, dpin7, dpin8, cpin);
   numBoards = 9;
@@ -88,21 +85,20 @@ void WS2801_Soft::begin(void) {
 void WS2801_Soft::updatePins(uint8_t dpin0, uint8_t dpin1, uint8_t dpin2, uint8_t cpin) {
 
   datapin0     = dpin0;
+  dataport0    = portOutputRegister(digitalPinToPort(dpin0));
+  datapinmask0 = digitalPinToBitMask(dpin0);
+  
   datapin1     = dpin1;
+  dataport1    = portOutputRegister(digitalPinToPort(dpin1));
+  datapinmask1 = digitalPinToBitMask(dpin1);
+  
   datapin2     = dpin2;
+  dataport2    = portOutputRegister(digitalPinToPort(dpin2));
+  datapinmask2 = digitalPinToBitMask(dpin2);
   
   clkpin      = cpin;
   clkport     = portOutputRegister(digitalPinToPort(cpin));
   clkpinmask  = digitalPinToBitMask(cpin);
-  
-  dataport0    = portOutputRegister(digitalPinToPort(dpin0));
-  datapinmask0 = digitalPinToBitMask(dpin0);
-  
-  dataport1    = portOutputRegister(digitalPinToPort(dpin1));
-  datapinmask1 = digitalPinToBitMask(dpin1);
-  
-  dataport2    = portOutputRegister(digitalPinToPort(dpin2));
-  datapinmask2 = digitalPinToBitMask(dpin2);
   
 }
 

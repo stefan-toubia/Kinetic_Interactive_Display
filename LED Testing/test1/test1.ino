@@ -1,4 +1,4 @@
-#include <WS2801_Soft.h>
+#include "WS2801_Soft2.h"
 
 
 /*****************************************************************************
@@ -18,7 +18,7 @@ int clockPin = 39;
 
 
 // Set the first variable to the NUMBER of pixels. 25 = 25 pixels in a row
-WS2801_Soft strip = WS2801_Soft(dataPin0, dataPin1, dataPin2, clockPin);
+WS2801_Soft2 strip = WS2801_Soft2(dataPin0, dataPin1, dataPin2, clockPin);
 
 // Optional: leave off pin numbers to use hardware SPI
 // (pinout is then specific to each board and can't be changed)
@@ -164,8 +164,12 @@ void loop() {
   //colorWipe(Color(255, 0, 0), 1000);
   //colorWipe(Color(0, 255, 0), 1000);
   //colorWipe(Color(0, 0, 255), 1000);
-  //rainbow(20);
-  rainbowCycle(20);
+  rainbow(50);
+  //delay(2000);
+  rainbowCycle(1);
+  //delay(2000);
+  rainbowCycle(10);
+  //delay(3000);
 }
 
 void rainbow(uint8_t wait) {
@@ -193,9 +197,9 @@ void rainbowCycle(uint8_t wait) {
       // (thats the i / strip.numPixels() part)
       // Then add in j which makes the colors go around per pixel
       // the % 96 is to make the wheel cycle around
-      strip.setPixelColor(i, Wheel( ((i * 256 / strip.numPixels()) + j) % 256) );
-      strip.setPixelColor(i, Wheel( ((i * 256 / strip.numPixels()) + j) % 256) );
-      strip.setPixelColor(i, Wheel( ((i * 256 / strip.numPixels()) + j) % 256) );
+      strip.setPixelColor(i, 0, Wheel( ((i * 256 / 9) + j) % 256) );
+      strip.setPixelColor(i, 1, Wheel( ((i * 256 / 9) + j) % 256) );
+      strip.setPixelColor(i, 2, Wheel( ((i * 256 / 9) + j) % 256) );
     }  
     strip.show();   // write all the pixels out
     delay(wait);
@@ -208,7 +212,10 @@ void colorWipe(uint32_t c, uint8_t wait) {
   int i;
   
   for (i=0; i < 9; i++) {
-      strip.setPixelColor(i, c);
+      strip.setPixelColor(i, 0, c);
+      strip.setPixelColor(i, 1, c);
+      strip.setPixelColor(i, 2, c);
+      
       strip.show();
       delay(wait);
   }

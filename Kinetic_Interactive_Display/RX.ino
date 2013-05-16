@@ -12,7 +12,7 @@ int y_in = 0;
 
 #if defined TESTING
   int frame = 1;  
-  int last_frame;
+  int last_frame = 0;
   unsigned long last_frame_time = 0;
   unsigned long current_time_millis = 0;
 #endif

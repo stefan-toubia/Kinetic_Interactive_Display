@@ -7,12 +7,12 @@
  #include <pins_arduino.h>
 #endif
 
-class WS2801_Soft {
+class WS2801_Soft2 {
 
  public:
-  WS2801_Soft(uint8_t dpin0,  uint8_t dpin1, uint8_t dpin2, uint8_t cpin),
-  WS2801_Soft(uint8_t dpin0,  uint8_t dpin1, uint8_t dpin2, uint8_t dpin3, uint8_t dpin4, uint8_t dpin5, uint8_t cpin),
-  WS2801_Soft(uint8_t dpin0,  uint8_t dpin1, uint8_t dpin2, uint8_t dpin3, uint8_t dpin4, uint8_t dpin5, uint8_t dpin6, uint8_t dpin7, uint8_t dpin8, uint8_t cpin); // Configurable pins
+  WS2801_Soft2(uint8_t dpin0,  uint8_t dpin1, uint8_t dpin2, uint8_t cpin),
+  WS2801_Soft2(uint8_t dpin0,  uint8_t dpin1, uint8_t dpin2, uint8_t dpin3, uint8_t dpin4, uint8_t dpin5, uint8_t cpin),
+  WS2801_Soft2(uint8_t dpin0,  uint8_t dpin1, uint8_t dpin2, uint8_t dpin3, uint8_t dpin4, uint8_t dpin5, uint8_t dpin6, uint8_t dpin7, uint8_t dpin8, uint8_t cpin); // Configurable pins
 
   void
     begin(void),

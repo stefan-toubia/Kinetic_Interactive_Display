@@ -1,38 +1,41 @@
 
-#include "WS2801_Soft.h"
+#include "WS2801_Soft2.h"
 
 // Example to control WS2801-based RGB LED Modules in a strand or strip
 // Written by Adafruit - MIT license
 // Modified by Stefan Toubia:
 // Removed Hardware SPI and modified Soft SPI to run 9 separate data pins
-// Now it is not a library.
+
 /*****************************************************************************/
 
 // Constructor for use with arbitrary clock/data pins:
 // n is number of WS2801 per data pin?
 //Constructor for 3 boards
-WS2801_Soft::WS2801_Soft(uint8_t dpin0, uint8_t dpin1, uint8_t dpin2, uint8_t cpin) {
+WS2801_Soft2::WS2801_Soft2(uint8_t dpin0, uint8_t dpin1, uint8_t dpin2, uint8_t cpin) {
   numBoards = 3;
   alloc(9);
   updatePins(dpin0, dpin1, dpin2, cpin);
 }
 
 //constructor for 6 boards
-WS2801_Soft::WS2801_Soft(uint8_t dpin0, uint8_t dpin1, uint8_t dpin2, uint8_t dpin3, uint8_t dpin4, uint8_t dpin5, uint8_t cpin) {
+WS2801_Soft2::WS2801_Soft2(uint8_t dpin0, uint8_t dpin1, uint8_t dpin2, uint8_t dpin3, uint8_t dpin4, uint8_t dpin5, uint8_t cpin) {
   numBoards = 6;
   alloc(9);
   updatePins(dpin0, dpin1, dpin2, dpin3, dpin4, dpin5, cpin);
 }
 
 //constructor for 9 boards
-WS2801_Soft::WS2801_Soft(uint8_t dpin0, uint8_t dpin1, uint8_t dpin2, uint8_t dpin3, uint8_t dpin4, uint8_t dpin5, uint8_t dpin6, uint8_t dpin7, uint8_t dpin8, uint8_t cpin) {
+WS2801_Soft2::WS2801_Soft2
+
+
+(uint8_t dpin0, uint8_t dpin1, uint8_t dpin2, uint8_t dpin3, uint8_t dpin4, uint8_t dpin5, uint8_t dpin6, uint8_t dpin7, uint8_t dpin8, uint8_t cpin) {
   alloc(9);
   updatePins(dpin0, dpin1, dpin2, dpin3, dpin4, dpin5, dpin6, dpin7, dpin8, cpin);
   numBoards = 9;
 }
 
 // Allocate 3 bytes per pixel, init to RGB 'off' state:
-void WS2801_Soft::alloc(uint16_t n) {
+void WS2801_Soft2::alloc(uint16_t n) {
   numLEDs = 9;
   if(numBoards == 3) {
     pixels0  = (uint8_t *)calloc(n, 3);
@@ -59,7 +62,7 @@ void WS2801_Soft::alloc(uint16_t n) {
 }
 
 // Activate hard/soft SPI as appropriate:
-void WS2801_Soft::begin(void) {
+void WS2801_Soft2::begin(void) {
   if(numBoards >= 3){
     pinMode(datapin0, OUTPUT);
     pinMode(datapin1, OUTPUT);
@@ -82,7 +85,7 @@ void WS2801_Soft::begin(void) {
 
 
 // Change pin assignments post-constructor, using arbitrary pins:
-void WS2801_Soft::updatePins(uint8_t dpin0, uint8_t dpin1, uint8_t dpin2, uint8_t cpin) {
+void WS2801_Soft2::updatePins(uint8_t dpin0, uint8_t dpin1, uint8_t dpin2, uint8_t cpin) {
 
   datapin0     = dpin0;
   datapin1     = dpin1;
@@ -103,7 +106,7 @@ void WS2801_Soft::updatePins(uint8_t dpin0, uint8_t dpin1, uint8_t dpin2, uint8_
   
 }
 
-void WS2801_Soft::updatePins(uint8_t dpin0, uint8_t dpin1, uint8_t dpin2, uint8_t dpin3, uint8_t dpin4, uint8_t dpin5, uint8_t cpin) {
+void WS2801_Soft2::updatePins(uint8_t dpin0, uint8_t dpin1, uint8_t dpin2, uint8_t dpin3, uint8_t dpin4, uint8_t dpin5, uint8_t cpin) {
 
   datapin0     = dpin0;
   datapin1     = dpin1;
@@ -138,7 +141,7 @@ void WS2801_Soft::updatePins(uint8_t dpin0, uint8_t dpin1, uint8_t dpin2, uint8_
 
 }
 
-void WS2801_Soft::updatePins(uint8_t dpin0, uint8_t dpin1, uint8_t dpin2, uint8_t dpin3, uint8_t dpin4, uint8_t dpin5, uint8_t dpin6, uint8_t dpin7, uint8_t dpin8, uint8_t cpin) {
+void WS2801_Soft2::updatePins(uint8_t dpin0, uint8_t dpin1, uint8_t dpin2, uint8_t dpin3, uint8_t dpin4, uint8_t dpin5, uint8_t dpin6, uint8_t dpin7, uint8_t dpin8, uint8_t cpin) {
 
   datapin0     = dpin0;
   datapin1     = dpin1;
@@ -182,7 +185,7 @@ void WS2801_Soft::updatePins(uint8_t dpin0, uint8_t dpin1, uint8_t dpin2, uint8_
   datapinmask8 = digitalPinToBitMask(dpin8);
 }
 
-void WS2801_Soft::show(void) {
+void WS2801_Soft2::show(void) {
   uint16_t i, nl3 = numLEDs * 3; // 3 bytes per LED
   uint8_t  bit;
 
@@ -230,7 +233,7 @@ void WS2801_Soft::show(void) {
 }
 
 // Set pixel color from separate 8-bit R, G, B components:
-void WS2801_Soft::setPixelColor(uint16_t index, uint16_t board, uint8_t r, uint8_t g, uint8_t b) {
+void WS2801_Soft2::setPixelColor(uint16_t index, uint16_t board, uint8_t r, uint8_t g, uint8_t b) {
   if(index < numLEDs) { // Arrays are 0-indexed, thus NOT '<='
     switch(board){
       case 0:
@@ -311,7 +314,7 @@ void WS2801_Soft::setPixelColor(uint16_t index, uint16_t board, uint8_t r, uint8
 }
 
 // Set pixel color from 'packed' 32-bit RGB value:
-void WS2801_Soft::setPixelColor(uint16_t index, uint16_t board, uint32_t c) {
+void WS2801_Soft2::setPixelColor(uint16_t index, uint16_t board, uint32_t c) {
   if(index < numLEDs) { // Arrays are 0-indexed, thus NOT '<='
     // To keep the show() loop as simple & fast as possible, the
     // internal color representation is native to different pixel
